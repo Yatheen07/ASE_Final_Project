@@ -5,6 +5,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';  // new
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/services.dart' show rootBundle;
+
+import 'Widgets/BikeStationMap.dart';
+
+
+
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
@@ -13,6 +22,7 @@ Future<void> main() async{
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -120,28 +130,22 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(child: LuasData(),),
-            const Divider(
-              height: 20,
-              thickness: 5,
-              indent: 20,
-              endIndent: 0,
-              color: Colors.black,
-            ),
-            Expanded(child: BusData(),),
+            Row(),
+            Expanded(child: BikeStationMap()),
+            Row(),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _incrementCounter,
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
 
-class LuasData extends StatefulWidget {
+class LuasData extends StatefulWidget{
   const LuasData({Key? key}) : super(key: key);
 
   @override
@@ -212,5 +216,44 @@ class _BusDataState extends State<BusData> {
     );
   }
 }
+//
+// class BikeStationMap extends StatefulWidget {
+//   const BikeStationMap({Key? key}) : super(key: key);
+//
+//   @override
+//   _BikeStationMapState createState() => _BikeStationMapState();
+// }
+//
+// class _BikeStationMapState extends State<BikeStationMap> {
+//   final Stream<QuerySnapshot> _stationMapMarkersStream = FirebaseFirestore.instance.collection("DublinBikesStationMarkers").snapshots();
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder<QuerySnapshot>(
+//       stream: _stationMapMarkersStream,
+//       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+//         if (snapshot.hasError) {
+//           return Text('Something went wrong');
+//         }
+//
+//         if (snapshot.connectionState == ConnectionState.waiting) {
+//           return Text("Loading");
+//         }
+//
+//         return ListView(
+//           children: snapshot.data!.docs.map((DocumentSnapshot document) {
+//             Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+//             return ListTile(
+//               title: Text(data['Name']),
+//               subtitle: Text(data['Latitude'] + " " + data['Longitude']),
+//             );
+//           }).toList(),
+//         );
+//       },
+//     );
+//   }
+// }
+
+
+
 
 
